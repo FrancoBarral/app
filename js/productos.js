@@ -39,6 +39,7 @@ createApp({
         .catch((err) => {
           console.error(err);
           this.error = true;
+          this.cargando = false;
         });
     },
     eliminar(producto) {
