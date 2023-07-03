@@ -59,7 +59,7 @@ createApp({
         descripcion: this.descripcion,
         precio: this.precio,
         stock: this.stock,
-        imagen: this.imagen,
+        imagen: this.imagen
       };
       var options = {
         body: JSON.stringify(producto),
