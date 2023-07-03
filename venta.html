@@ -16,10 +16,6 @@
       crossorigin="anonymous"
     />
     <script src="https://kit.fontawesome.com/6c5c1fa8c0.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>Ventas</title>
   </head>
@@ -60,7 +56,7 @@
                   </ul>
               </div>
           </div>
-          <div id="app" class="container">
+          <div id="app" class="container venta">
             <header id="header">
               <nav class="navbar navbar-expand-sm navbar-light">
                 <div class="container">
@@ -127,12 +123,54 @@
               <div class="container-producto">
                 <div class="producto">
                     <h5>Producto</h5>
-                    <select id="miSelect">
-                        <option value="opcion1">Opción 1</option>
-                        <option value="opcion2">Opción 2</option>
-                        <!-- Agrega más opciones según sea necesario -->
+                    <select id="selectProduct" v-if="productos.length > 0" v-model="productoSeleccionado" @change="actualizarStock">
+                      <option :value="producto.id" :key="producto.id" v-for="producto in productos">{{producto.nombre}}</option>
                     </select>
                 </div>
+                <div class="cantidad">
+                  <h5>Cantidad</h5>
+                  <input type="number" name="cantidad" id="cantidad" v-model="cantidad">
+                </div>
+                <div class="stock">
+                  <h5>Stock</h5>
+                  <input type="text" name="stock" id="stock-non-editable" v-model="stockProducto" readonly :disabled="!productoSeleccionado">
+                </div>
+                <div class="agregar-product">
+                  <button class="btn btn-success" v-on:click="agregarProductos"><i class="fa-solid fa-square-plus" style="margin-right:12px"></i>Añadir</button>
+                </div>
+              </div>
+              <div class="container-producto-tabla">
+                <table>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Precio Unidad</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="" v-for="productos in productosSeleccionados">
+                        <td scope="row">{{productos.id}}</td>
+                        <td>{{productos.nombre}}</td>
+                        <td>{{productos.descripcion}}</td>
+                        <td>{{productos.precio}}</td>
+                        <td>{{productos.cantidad}}</td>
+                        <td>{{productos.precioTotal}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </table>
+              </div>
+              <div class="finalizar-venta">
+                <h4>{{precioFinal}}</h4>
+                <button class="btn btn-success" v-on:click="generarVenta">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  Finalizar venta
+                </button>
               </div>
             </main>
           </div>
@@ -151,16 +189,8 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!--Link de VUE-->
     <script src="./js/ventas.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#miSelect').select2({
-            multiple: true // Permitir selección múltiple
-            });
-        });
-    </script>
   </body>
 </html>

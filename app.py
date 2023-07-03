@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:1234567@localhost/proyecto'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:1234@localhost/proyecto'
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
@@ -19,6 +19,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db= SQLAlchemy(app)
 
 ma=Marshmallow(app)
+
+
+class Venta(db.Model): 
+    id=db.Column(db.Integer,primary_key=True)
+    idVenta=db.Column(db.Integer)
+    nombreCliente=db.Column(db.String(400))
+    metodoPago=db.Column(db.String(255))
+    tipoFactura=db.Column(db.String(300))
+    fechaCompra=db.Column(db.DateTime(timezone=True))
+    
+    def __init__(self,id,idVenta,nombreCliente,metodoPago,tipoFactura,fechaCompra):
+        self.id=id
+        self.idVenta = idVenta
+        self.nombreCliente = nombreCliente
+        self.metodoPago = metodoPago
+        self.tipoFactura = tipoFactura
+        self.fechaCompra = fechaCompra
 
 
 class Producto(db.Model): # la clase Producto hereda de db.Model
@@ -114,6 +131,15 @@ def search():
 
     return jsonify(registros)
 
+    
+@app.route('/registrar_venta', methods=['POST'])
+def registrar_venta():
+    data = request.json
+    
+    venta = Venta(idVenta=data['idVenta'],nombreCliente=data['nombreCliente'],metodoPago=data['metodoPago'],tipoFactura=data['tipoFactura'],fechaCompra=data['fechaCompra'])    
+    
+    db.session.add(venta)
+    db.session.commit()
     
 
 # programa principal *******************************
