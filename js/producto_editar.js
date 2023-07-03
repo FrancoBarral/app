@@ -10,6 +10,7 @@ createApp({
       imagen: "",
       stock: 0,
       precio: 0,
+      descripcion: "",
       url: "http://localhost:5000/productos/" + id,
     };
   },
@@ -21,6 +22,7 @@ createApp({
           console.log(data);
           this.id = data.id;
           this.nombre = data.nombre;
+          this.descripcion = data.descripcion;
           this.imagen = data.imagen;
           this.stock = data.stock;
           this.precio = data.precio;
@@ -33,6 +35,7 @@ createApp({
     modificar() {
       let producto = {
         nombre: this.nombre,
+        descripcion: this.descripcion,
         precio: this.precio,
         stock: this.stock,
         imagen: this.imagen,

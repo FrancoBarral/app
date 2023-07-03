@@ -12,7 +12,7 @@ var dia = fecha_actual.getDate();
 var mes = fecha_actual.getMonth();
 var año = fecha_actual.getFullYear();
 
-var fecha_formateada = (dia < 10 ? '0' + dia : dia) + "/" + (mes < 10 ? '0' + mes : mes) + '/' + año;
+var fecha_formateada = dia + "/" + mes + '/' + año;
 
 fecha_actual.value = fecha_formateada
 
@@ -38,7 +38,7 @@ createApp({
       stockProducto: null,
       productoSeleccionado: "",
       precioFinal: 0,
-      numeroVenta: 0,
+      numeroVenta: 1,
       cliente: "",
       metodoPago: "",
       tipoFactura: "",
