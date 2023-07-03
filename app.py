@@ -28,6 +28,7 @@ class Venta(db.Model):
     metodoPago=db.Column(db.String(255))
     tipoFactura=db.Column(db.String(300))
     fechaCompra=db.Column(db.DateTime(timezone=True))
+    productos = db.relationship('Producto', backref='venta', lazy=True)
     
     def __init__(self,id,idVenta,nombreCliente,metodoPago,tipoFactura,fechaCompra):
         self.id=id
@@ -45,6 +46,7 @@ class Producto(db.Model): # la clase Producto hereda de db.Model
     precio=db.Column(db.Integer)
     stock=db.Column(db.Integer)
     imagen=db.Column(db.String(400))
+    venta_id = db.Column(db.Integer, db.ForeignKey('venta.id'), nullable=True)
 
     def __init__(self,nombre,descripcion,precio,stock,imagen):
         self.nombre=nombre

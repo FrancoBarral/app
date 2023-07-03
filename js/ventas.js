@@ -4,6 +4,18 @@ var title = document.title;
 let menu_item = document.querySelector("#orders");
 let selectProduct = document.getElementById("selectProduct");
 let stock_non_editable = document.getElementById("stock-non-editable");
+let fecha_compra = document.getElementById("date-compra")
+
+var fecha_actual = new Date();
+
+var dia = fecha_actual.getDate();
+var mes = fecha_actual.getMonth();
+var año = fecha_actual.getFullYear();
+
+var fecha_formateada = (dia < 10 ? '0' + dia : dia) + "/" + (mes < 10 ? '0' + mes : mes) + '/' + año;
+
+fecha_actual.value = fecha_formateada
+
 
 if (title == "Ventas") {
   menu_item.classList.add("nav-item-active");
@@ -25,6 +37,12 @@ createApp({
       busqueda: '',
       stockProducto: null,
       productoSeleccionado: "",
+      precioFinal: 0,
+      numeroVenta: 0,
+      cliente: "",
+      metodoPago: "",
+      tipoFactura: "",
+      dateCompra: "",
     };
   },
   methods: {
@@ -58,14 +76,31 @@ createApp({
 
         this.productosSeleccionados.push(this.productos[this.productoSeleccionado-1]);
         
+        this.precioFinal += this.productos[this.productoSeleccionado-1].precioTotal
+
         // Reinicia la selección del producto y la cantidad
         this.productoSeleccionado = null;
-        this.stockProducto = ""
-        this.cantidad = ""  
+        this.stockProducto = "";
+        this.cantidad = "";
       }
+
     },
-    generarVenta() {
-      
+    generarVenta() {  
+      ulrVenta = "http://localhost:5000/registrar_venta";
+      bodyVenta = {
+        "idVenta": this.numeroVenta,
+        "nombreCliente": this.cliente,
+        "metodoPago": this.metodoPago,
+        "tipoFactura": this.tipoFactura,
+        "fechaCompra": this.fechaCompra,
+        "productos": this.productosSeleccionados
+      }
+      options = {
+        body: JSON.stringify(bodyVenta),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        redirect: "follow",
+      };
     },
   },
   mounted() {
